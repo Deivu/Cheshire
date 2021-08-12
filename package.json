@@ -1,0 +1,25 @@
+{
+  "name": "tlru",
+  "version": "1.0.0",
+  "description": "TLRU with Discord.JS Collections",
+  "main": "./src/TlruCollection.js",
+  "files": [
+    "dist/*.js",
+    "dist/*.ts"
+  ],
+  "engines": {
+    "node": ">=16.6.0",
+    "npm": ">=7.0.0"
+  },
+  "author": "Saya",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Deivu/Shoukaku"
+  },
+  "dependencies": {
+    "fun-dispatcher": "^1.2.6",
+    "@discordjs/collection": "^0.2.1",
+    "discord.js": ">=13.0.0"
+  }
+}
