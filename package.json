@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "A TLRU cache that extends Discord.JS collections",
   "main": "./src/TlruCollection.js",
-  "files": [
-    "dist/*.js",
-    "dist/*.ts"
-  ],
   "engines": {
     "node": ">=16.6.0",
     "npm": ">=7.0.0"
@@ -15,7 +11,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Deivu/Shoukaku"
+    "url": "https://github.com/Deivu/TlruCollection"
   },
   "dependencies": {
     "fun-dispatcher": "^1.2.6",
