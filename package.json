@@ -1,7 +1,7 @@
 {
-  "name": "tlru",
+  "name": "tlru-collection",
   "version": "1.0.0",
-  "description": "TLRU with Discord.JS Collections",
+  "description": "A TLRU cache that extends Discord.JS collections",
   "main": "./src/TlruCollection.js",
   "files": [
     "dist/*.js",
@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "fun-dispatcher": "^1.2.6",
-    "@discordjs/collection": "^0.2.1",
-    "discord.js": ">=13.0.0"
+    "@discordjs/collection": "^0.2.1"
   }
 }

@@ -1,4 +1,3 @@
-const { Constants } = require('discord.js');
 const { Collection } = require('@discordjs/collection');
 const { Scheduler } = require('fun-dispatcher');
 
@@ -19,24 +18,22 @@ class TlruCollection extends Collection {
 
     set(key, value, ttuMs = this.maxAgeMs + this.size) {
         if (this.size >= this.maxStoreSize) this.scheduler.runNext();
-        this.scheduler.schedule(String(key), () => super.delete(key), ttuMs);
+        this.scheduler.schedule(key, () => super.delete(key), ttuMs);
         return super.set(key, value);
     }
 
     get(key, revive = this.defaultLRU) {
-        if (this.has(key)) {
-            if (revive) {
-                const original = this.scheduler.get(String(key));
-                if (original)
-                    this.scheduler.schedule(String(key), () => super.delete(key), original.delay + super.size);
-            }
-            return super.get(key);
+        if (!this.has(key)) return undefined;
+        if (revive) {
+            const original = this.scheduler.get(key);
+            if (original)
+                this.scheduler.schedule(key, () => super.delete(key), original.delay + super.size);
         }
-        return undefined;
+        return super.get(key);
     }
 
     delete(key) {
-        this.scheduler.delete(String(key));
+        this.scheduler.delete(key);
         return super.delete(key);
     }
     
@@ -45,7 +42,7 @@ class TlruCollection extends Collection {
         super.clear();
     }
     
-    [Constants._cleanupSymbol]() {
+    [Symbol('djsCleanup')]() {
         return () => this.scheduler.flush();
     }
 }
