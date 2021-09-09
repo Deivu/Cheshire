@@ -1,8 +1,9 @@
 {
-  "name": "tlru-collection",
+  "name": "cheshire",
   "version": "1.0.0",
-  "description": "A TLRU cache that extends Discord.JS collections",
-  "main": "./src/TlruCollection.js",
+  "description": "A TLRU cache that extends Discord.JS Collections",
+  "main": "index.js",
+  "types": "index.d.ts",
   "engines": {
     "node": ">=16.6.0",
     "npm": ">=7.0.0"
