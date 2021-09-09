@@ -20,7 +20,7 @@
         "title":"Cheshire",
         "routing":"query",
         "entrance":"content:readme",
-        "base":"/"
+        "base":"/Cheshire"
     },
     "template":{
         "options":{

@@ -13,6 +13,8 @@
 </blockquote>
 <h2 id="documentation">Documentation</h2>
 <hr />
+<blockquote>
+</blockquote>
 <h3 id="default-options-explained">Default options explained</h3>
 <pre><code class="js">const { Cheshire } = require('cheshire');
 // Default options
@@ -46,8 +48,14 @@ cache.get(key: K, revive?: boolean): V;</code></pre>
 <pre><code class="js">const { Collection } = require('@discordjs/collection');
 const { Cheshire } = require('cheshire');
 
-const MessageCache = new Cheshire({ limit: 100, lifetime: 1.8e+6 });
-const UserCache = new Cheshire({ lifetime: 3.6e+6, executor: user =&gt; user.client.guilds.cache.each(guild =&gt; guild.members.cache.delete(user.id)) })
+const MessageCache = new Cheshire({ 
+    limit: 100, 
+    lifetime: 1.8e+6 
+});
+const UserCache = new Cheshire({ 
+    lifetime: 3.6e+6, 
+    executor: user =&gt; user.client.guilds.cache.each(guild =&gt; guild.members.cache.delete(user.id)) 
+});
 
 // Client is your Discord.JS client
 const client = new Client({

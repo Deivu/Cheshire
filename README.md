@@ -9,6 +9,8 @@
 > The ShipGirl Project; ⓒ Azur Lane
 
 ## Documentation
+
+> 
 ### Default options explained
 ```js
 const { Cheshire } = require('cheshire');
@@ -45,8 +47,14 @@ cache.get(key: K, revive?: boolean): V;
 const { Collection } = require('@discordjs/collection');
 const { Cheshire } = require('cheshire');
 
-const MessageCache = new Cheshire({ limit: 100, lifetime: 1.8e+6 });
-const UserCache = new Cheshire({ lifetime: 3.6e+6, executor: user => user.client.guilds.cache.each(guild => guild.members.cache.delete(user.id)) })
+const MessageCache = new Cheshire({ 
+	limit: 100, 
+	lifetime: 1.8e+6 
+});
+const UserCache = new Cheshire({ 
+	lifetime: 3.6e+6, 
+	executor: user => user.client.guilds.cache.each(guild => guild.members.cache.delete(user.id)) 
+});
 
 // Client is your Discord.JS client
 const client = new Client({
