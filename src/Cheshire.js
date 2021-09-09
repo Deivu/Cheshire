@@ -27,7 +27,7 @@ class Options {
         */
         this.limit = options.limit || Infinity;
         /**
-        * The lifetime for an entry in this cache. Defaults to "12 * 60 * 60 * 1000"
+        * The lifetime for an entry in this cache in ms. Defaults to "12 * 60 * 60 * 1000"
         * @type {number}
         */
         this.lifetime = options.lifetime || 12 * 60 * 60 * 1000;
