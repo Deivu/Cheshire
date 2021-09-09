@@ -8,17 +8,21 @@
 
 > The ShipGirl Project; ⓒ Azur Lane
 
-## Documentation
+### Installation
+
+> npm i https://github.com/Deivu/Cheshire.git
+
+### Documentation
 
 > https://deivu.github.io/Cheshire/
 
-## What is LRU and TLRU?
+### What is LRU and TLRU?
 
 > LRU cache behavior can be found in: https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)
 
 > TLRU cache behavior can be found in: https://en.wikipedia.org/wiki/Cache_replacement_policies#Time_aware_least_recently_used_(TLRU)
 
-## Example Usage
+### Example Usage (Discord.JS V13)
 ```js
 const { Collection } = require('@discordjs/collection');
 const { Cheshire } = require('cheshire');
