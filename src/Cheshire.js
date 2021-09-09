@@ -83,8 +83,8 @@ class Cheshire extends Collection {
         if (this.size > this.options.limit) this.scheduler.runNext();
         this.scheduler.schedule(key, () => {
             const data = this.get(key);
-            if (data && this.options.executor) this.options.executor(data);
             super.delete(key);
+            if (data && this.options.executor) this.options.executor(data);
         }, ttu);
         return super.set(key, value);
     }
@@ -103,8 +103,8 @@ class Cheshire extends Collection {
             if (original) {
                 this.scheduler.schedule(key, () => {
                     const data = this.get(key);
-                    if (data && this.options.executor) this.options.executor(data);
                     super.delete(key);
+                    if (data && this.options.executor) this.options.executor(data);
                 }, original.delay + super.size);
             }
         }
