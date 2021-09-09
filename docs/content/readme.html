@@ -6,7 +6,7 @@
 <p>Your maid catgirl cache manager based on <a href="https://discord.js.org/#/docs/collection/main/general/welcome">Collections</a> and <a href="https://www.npmjs.com/package/tlru">TLRU</a></p>
 </blockquote>
 <blockquote>
-<p>Supports both TLRU or LRU </p>
+<p>Supports both TLRU or LRU cache modes</p>
 </blockquote>
 <blockquote>
 <p>The ShipGirl Project; ⓒ Azur Lane</p>
@@ -14,34 +14,15 @@
 <h2 id="documentation">Documentation</h2>
 <hr />
 <blockquote>
+<p><a href="https://deivu.github.io/Cheshire/">https://deivu.github.io/Cheshire/</a></p>
 </blockquote>
-<h3 id="default-options-explained">Default options explained</h3>
-<pre><code class="js">const { Cheshire } = require('cheshire');
-// Default options
-const cache = new Cheshire({
-    limit: Infinity, // Max size limit for this cache
-    lifetime: 12 * 60 * 60 * 1000, // How long data should be stored in ms
-    executor: null, // Additional thing you want to execute once the "expired" will be sweeped
-    lru: false, // If false, the cache will behave in "LRU" mode. If true, the will execute in "TLRU" mode
-})</code></pre>
+<h2 id="what-is-lru-and-tlru-">What is LRU and TLRU?</h2>
+<hr />
 <blockquote>
 <p>LRU cache behavior can be found in: <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)">https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)</a></p>
 </blockquote>
 <blockquote>
 <p>TLRU cache behavior can be found in: <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Time_aware_least_recently_used_(TLRU)">https://en.wikipedia.org/wiki/Cache_replacement_policies#Time_aware_least_recently_used_(TLRU)</a></p>
-</blockquote>
-<h3 id="modified-methods">Modified methods</h3>
-<blockquote>
-<p>cache.set()</p>
-<pre><code class="js">// First Parameter is the key for this value in cache
-// Second Parameter is the value for this key in cache
-// Third Parameter is optional, sets how long this data in cahe should live in ms, Overrides option.lifetime 
-cache.set(key: K, value: V, ttu?: number): Cheshire;</code></pre>
-<p>cache.get()</p>
-<pre><code class="js">// First Parameter is the key you want to get in your cache
-// Second Parameter is optional, extends the expiry of this data in cache, Overrides option.lru
-cache.get(key: K, revive?: boolean): V;</code></pre>
-<p>As this extends Collection, Other methods can be found at <a href="https://discord.js.org/#/docs/collection/main/class/Collection">Discord.JS Collection Docs</a></p>
 </blockquote>
 <h2 id="example-usage">Example Usage</h2>
 <hr />
