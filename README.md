@@ -10,7 +10,7 @@
 
 ### Installation
 
-> npm i --save @saya/cheshire
+> npm i --save https://github.com/Deivu/Cheshire.git
 
 ### Documentation
 
