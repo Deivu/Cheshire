@@ -5,8 +5,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "engines": {
-    "node": ">=16.6.0",
-    "npm": ">=7.0.0"
+    "node": ">=14.0.0"
   },
   "author": "Saya",
   "license": "MIT",
@@ -14,6 +13,16 @@
     "type": "git",
     "url": "https://github.com/Deivu/Cheshire"
   },
+  "keywords": [
+    "discord.js",
+    "discordjs",
+    "discord-bot",
+    "cache",
+    "collection",
+    "tlru",
+    "lru",
+    "@discordjs/collections"
+  ],
   "dependencies": {
     "fun-dispatcher": "^1.2.6",
     "@discordjs/collection": "^0.2.1"

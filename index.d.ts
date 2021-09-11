@@ -1,5 +1,5 @@
 import { Cheshire, Options } from './src/Cheshire';
 
-declare module 'Cheshire' {
+declare module 'cheshire' {
     export { Cheshire, Options };
 }
