@@ -10,7 +10,7 @@
 
 ### Installation
 
-> npm i --save cheshire
+> npm i --save @saya/cheshire
 
 ### Documentation
 

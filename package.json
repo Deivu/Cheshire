@@ -1,5 +1,5 @@
 {
-  "name": "cheshire",
+  "name": "@saya/cheshire",
   "version": "1.0.0",
   "description": "TLRU / LRU cache based on @discordjs/collections",
   "main": "index.js",
