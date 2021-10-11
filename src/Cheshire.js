@@ -80,7 +80,7 @@ class Cheshire extends Collection {
                 const deletable = this.options.disposer(key, value);
                 if (deletable) return super.delete(key);
                 this.scheduler.schedule(key, () => this.runnable(key, value, ttu), ttu);
-            } 
+            }
         });
     }
     /**
