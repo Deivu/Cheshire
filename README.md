@@ -34,7 +34,7 @@ const MessageCache = new Cheshire({
 	lifetime: 1.8e+6 
 });
 /* 
- * A use case of custom executor, return true if an item must be delete, or false if an item should be rescheduled for deletion
+ * A use case of custom executor, return true if an item must be deleted, or false if an item should be rescheduled for deletion
  * The code below is an example of the usecase of an executor.
  * Some key points points here is:
  *  "key" refers to the key of the item in this instance
