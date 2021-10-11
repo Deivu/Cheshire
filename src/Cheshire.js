@@ -32,10 +32,10 @@ class Options {
         */
         this.lifetime = options.lifetime || 12 * 60 * 60 * 1000;
         /**
-        * An executor that will execute on data eviction. Defaults to "null"
+        * What Cheshire will execute on timeout, you can use this to customize your cache deletion behavior. First parameter is the key, second parameter is the value
         * @type {Function|null}
         */
-        this.executor = options.executor || null;
+        this.disposer = options.disposer || (key => super.delete(key));
         /**
         * If true, the cache will operate in LRU mode, if false, the cache will operate in TLRU mode. Defaults to "false"
         * @type {boolean}
@@ -43,7 +43,7 @@ class Options {
         this.lru = options.lru || false;
         if (isNaN(this.limit)) throw new Error('Option limit must be a number');
         if (isNaN(this.lifetime)) throw new Error('Option lifetime must be a number');
-        if (this.executor && typeof this.executor !== 'function') throw new Error('Option executor must be a function');
+        if (this.disposer && typeof this.disposer !== 'function') throw new Error('Option disposer must be a function');
     }
 }
 
@@ -81,33 +81,22 @@ class Cheshire extends Collection {
      */
     set(key, value, ttu = this.options.lifetime + this.size) {
         if (this.size > this.options.limit) this.scheduler.runNext();
-        this.scheduler.schedule(key, () => {
-            const data = this.get(key);
-            super.delete(key);
-            if (data && this.options.executor) this.options.executor(data);
-        }, ttu);
+        this.scheduler.schedule(key, this.options.disposer.bind(this, key, value), ttu);
         return super.set(key, value);
     }
     /**
      * Sets a data in cache
      * @param {*} key The key of the entry in cache
-     * @param {number} [revive] If you want to override this entry to use TLRU or LRU cache. Defaults to Options.lru
+     * @param {boolean} [revive] If you want to override this entry to use TLRU or LRU cache. Defaults to Options.lru
      * @memberof Cheshire
      * @returns {*|undefined}
      */
     get(key, revive = this.options.lru) {
         const data = super.get(key);
         if (!data) return undefined;
-        if (revive) {
-            const original = this.scheduler.get(key);
-            if (original) {
-                this.scheduler.schedule(key, () => {
-                    const data = this.get(key);
-                    super.delete(key);
-                    if (data && this.options.executor) this.options.executor(data);
-                }, original.delay + super.size);
-            }
-        }
+        if (!revive) return data;
+        const original = this.scheduler.get(key);
+        if (original) this.scheduler.schedule(key, this.options.disposer.bind(this, key, data), original.delay + super.size);
         return data;
     }
 

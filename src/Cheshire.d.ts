@@ -4,7 +4,7 @@ import { Scheduler } from 'fun-dispatcher';
 export interface Options {
     limit?: number,
     lifetime?: number,
-    executor?: (V: any) => void,
+    disposer?: (K: any, V: any) => void,
     lru?: boolean
 }
 
