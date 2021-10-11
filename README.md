@@ -33,9 +33,26 @@ const MessageCache = new Cheshire({
 	limit: 100, 
 	lifetime: 1.8e+6 
 });
+/* 
+ * A use case of custom executor, return true if an item must be delete, or false if an item should be rescheduled for deletion
+ * The code below is an example of the usecase of an executor.
+ * Some key points points here is:
+ *  "key" refers to the key of the item in this instance
+ *  "value" refers to the value of the item in this instance
+ */
 const UserCache = new Cheshire({ 
 	lifetime: 3.6e+6, 
-	executor: user => user.client.guilds.cache.each(guild => guild.members.cache.delete(user.id)) 
+	executor: (key, value) => {
+		// In this case I don't want to touch my bot user cache, so it would just reschedule itself again
+		if (key === value.client.user.id) return false;
+		// In this example, I don't want to uncache users / members that is on a voice channel
+		const inVoice = value.client.guilds.cache.some(guild => guild.members.cache.some(member => key === member.id && member.voice.channelId));
+		if (inVoice) return false;
+		// You can also delete other caches in here, example member cache since we know this user isn't on voice
+		value.client.guilds.cache.each(guild => guild.members.cache.sweep(member => key === member.id));
+		// In this point since we already checked our filters, we can safetly say we want to delete this user
+		return true;
+	}
 });
 
 // Client is your Discord.JS client

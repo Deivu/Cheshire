@@ -35,7 +35,7 @@ class Options {
         * What Cheshire will execute on timeout, you can use this to customize your cache deletion behavior. First parameter is the key, second parameter is the value
         * @type {Function|null}
         */
-        this.disposer = options.disposer || (key => super.delete(key));
+        this.disposer = options.disposer || (() => true);
         /**
         * If true, the cache will operate in LRU mode, if false, the cache will operate in TLRU mode. Defaults to "false"
         * @type {boolean}
@@ -59,17 +59,29 @@ class Cheshire extends Collection {
     constructor(options = {}) {
         super();
         /**
-        * Options for Cheshire
-        * @type {Options}
-        * @private
-        */
+         * Options for Cheshire
+         * @type {Options}
+         * @private
+         */
         Object.defineProperty(this, 'options', { value: new Options(options) });
         /**
-        * Scheduler for cache evictions
-        * @type {Scheduler}
+         * Scheduler for cache evictions
+         * @type {Scheduler}
+         * @private
+         */
+        Object.defineProperty(this, 'scheduler', { value: new Scheduler() });
+        /**
+        * Cache runnable, with this as the class
+        * @type {Function}
         * @private
         */
-        Object.defineProperty(this, 'scheduler', { value: new Scheduler() });
+        Object.defineProperty(this, 'runnable', { 
+            value: (key, value, ttu) => {
+                const deletable = this.options.disposer(key, value);
+                if (deletable) return super.delete(key);
+                this.scheduler.schedule(key, () => this.runnable(key, value, ttu), ttu);
+            } 
+        });
     }
     /**
      * Sets a data in cache
@@ -81,7 +93,7 @@ class Cheshire extends Collection {
      */
     set(key, value, ttu = this.options.lifetime + this.size) {
         if (this.size > this.options.limit) this.scheduler.runNext();
-        this.scheduler.schedule(key, this.options.disposer.bind(this, key, value), ttu);
+        this.scheduler.schedule(key, () => this.runnable(key, value, ttu), ttu);
         return super.set(key, value);
     }
     /**
@@ -96,7 +108,10 @@ class Cheshire extends Collection {
         if (!data) return undefined;
         if (!revive) return data;
         const original = this.scheduler.get(key);
-        if (original) this.scheduler.schedule(key, this.options.disposer.bind(this, key, data), original.delay + super.size);
+        if (original) {
+            const ttu = original.delay + super.size;
+            this.scheduler.schedule(key, () => this.runnable(key, data, ttu), ttu);
+        }
         return data;
     }
 
@@ -104,7 +119,7 @@ class Cheshire extends Collection {
         this.scheduler.delete(key);
         return super.delete(key);
     }
-    
+
     clear() {
         this.scheduler.flush();
         super.clear();
