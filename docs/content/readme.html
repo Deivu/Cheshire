@@ -12,8 +12,11 @@
 <p>The ShipGirl Project; ⓒ Azur Lane</p>
 </blockquote>
 <h3 id="installation">Installation</h3>
+<ul>
+<li>For stable release</li>
+</ul>
 <blockquote>
-<p>npm i <a href="https://github.com/Deivu/Cheshire.git">https://github.com/Deivu/Cheshire.git</a></p>
+<p>npm i github:Deivu/Cheshire#v1.0.0</p>
 </blockquote>
 <h3 id="documentation">Documentation</h3>
 <blockquote>
@@ -34,9 +37,26 @@ const MessageCache = new Cheshire({
     limit: 100, 
     lifetime: 1.8e+6 
 });
+/* 
+ * A use case of custom executor, return true if an item must be delete, or false if an item should be rescheduled for deletion
+ * The code below is an example of the usecase of an executor.
+ * Some key points points here is:
+ *  "key" refers to the key of the item in this instance
+ *  "value" refers to the value of the item in this instance
+ */
 const UserCache = new Cheshire({ 
     lifetime: 3.6e+6, 
-    executor: user =&gt; user.client.guilds.cache.each(guild =&gt; guild.members.cache.delete(user.id)) 
+    executor: (key, value) =&gt; {
+        // In this case I don't want to touch my bot user cache, so it would just reschedule itself again
+        if (key === value.client.user.id) return false;
+        // In this example, I don't want to uncache users / members that is on a voice channel
+        const inVoice = value.client.guilds.cache.some(guild =&gt; guild.members.cache.some(member =&gt; key === member.id &amp;&amp; member.voice.channelId));
+        if (inVoice) return false;
+        // You can also delete other caches in here, example member cache since we know this user isn't on voice
+        value.client.guilds.cache.each(guild =&gt; guild.members.cache.sweep(member =&gt; key === member.id));
+        // In this point since we already checked our filters, we can safetly say we want to delete this user
+        return true;
+    }
 });
 
 // Client is your Discord.JS client
