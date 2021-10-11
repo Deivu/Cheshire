@@ -12,7 +12,7 @@
 
 * For stable release
 
-> npm i github:Deivu/Cheshire#2.0.0
+> npm i github:Deivu/Cheshire#2.0.2
 
 ### Documentation
 
