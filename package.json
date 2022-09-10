@@ -25,6 +25,6 @@
   ],
   "dependencies": {
     "fun-dispatcher": "^1.2.6",
-    "@discordjs/collection": "^0.2.1"
+    "@discordjs/collection": "^1.1.0"
   }
 }
